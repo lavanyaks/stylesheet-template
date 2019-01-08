@@ -1,23 +1,20 @@
-var ampproject = function () {
-    const sidebar = document.getElementById('sidebar');
-    const button = document.getElementById('toggle');
+var request = new XMLHttpRequest();
+var data = {};
 
-    navtoggle = function () {
-        button.addEventListener('click', _ => {
-            sidebar.classList.toggle('open');
-            sidebar.classList.toggle("close");
-        });
-    };
+// Open a new connection, using the GET request on the URL endpoint
+request.open('GET', 'https://djangocontentservices.dev.postmedia.digital/api-root/lists/ffa9bbcf-8cfc-44cd-9d2e-b654f4f5ac93/amp-list.json/?format=json', true);
 
-    window.onload = function () {
-        console.log('loaded');
-        navtoggle();
-    };
-}();
+request.onload = function () {
+    // Begin accessing JSON data here
+    data = JSON.parse(this.response);
 
-async function twitter () {
-    let response = await fetch("https://publish.twitter.com/oembed?url=https://twitter.com/i/moments/650667182356082688");
-    let data = await response.json();
+    var example = new Vue({
+        el: '#example-1',
+        data: data 
+    });
+}
+
+window.onload = function () {
+    // Send request
+    request.send();
 };
-
-twitter();
